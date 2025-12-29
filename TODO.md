@@ -1,0 +1,6 @@
+- [x] Add updateComment and deleteComment functions to api.ts
+- [x] Make page.tsx client component, add state for comments, fetch on mount
+- [x] Update CommentList.tsx: Make client, add edit/delete UI and logic, use setComments
+- [x] Update CommentForm.tsx: Add callback to update comments after create
+- [x] Test the functionality
+- [x] Persist comments locally using localStorage to survive page refreshes

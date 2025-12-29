@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Home,
   Inbox,
@@ -7,7 +9,6 @@ import {
   User2,
   Plus,
   Projector,
-//   ChevronDown,
 } from "lucide-react";
 import {
   Sidebar,
@@ -26,13 +27,7 @@ import {
 } from "./ui/sidebar";
 import Link from "next/link";
 import Image from "next/image";
-// import {
-//   DropdownMenu,
-//   DropdownMenuItem,
-//   DropdownMenuTrigger,
-// } from "./ui/dropdown-menu";
-// import { DropdownMenuContent } from "@radix-ui/react-dropdown-menu";
-// import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
+import { useStore, useHydration } from "@/lib/store";
 
 const items = [
   {
@@ -47,7 +42,7 @@ const items = [
   },
   {
     title: "Calendar",
-    url: "#",
+    url: "/calendar",
     icon: Calendar,
   },
   {
@@ -63,10 +58,15 @@ const items = [
 ];
 
 const AppSidebar = () => {
+  const hydrated = useHydration();
+  // Get the actual number of posts from Zustand store
+  const postsCount = useStore((state) => state.posts.length);
+  const projectsCount = useStore((state) => state.projects.length);
+
   return (
-               // Komplet Sidebari
+    // Komplet Sidebari
     <Sidebar collapsible="icon">
-               {/* Headeri */}
+      {/* Headeri */}
       <SidebarHeader className="py-4">
         <SidebarMenu>
           <SidebarMenuItem>
@@ -82,13 +82,13 @@ const AppSidebar = () => {
 
       <SidebarSeparator />
 
-            {/* Menyt e Application  */}
+      {/* Menyt e Application  */}
       <SidebarContent>
         <SidebarGroup>
-             {/* Labeli per me kallzu menyjat kryesore */}
+          {/* Labeli per me kallzu menyjat kryesore */}
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
-               {/* Menyt qe jena ti marr prej constit nelt */}
+            {/* Menyt qe jena ti marr prej constit nelt */}
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
@@ -98,64 +98,51 @@ const AppSidebar = () => {
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
-                  {item.title==="Posts" && (
-                    <SidebarMenuBadge>24</SidebarMenuBadge>
+                  {item.title === "Posts" && (
+                    <SidebarMenuBadge>{postsCount}</SidebarMenuBadge>
                   )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-                  {/* Menyt per Projects */}
+        {/* Menyt per Projects */}
         <SidebarGroup>
-         <SidebarGroupLabel> Projects</SidebarGroupLabel>
-           <SidebarGroupAction>
+          <SidebarGroupLabel> Projects</SidebarGroupLabel>
+          <SidebarGroupAction>
             <Plus /> <span className="sr-only">Add Project</span>
           </SidebarGroupAction>
           <SidebarGroupContent>
-           <SidebarMenu>
-            <SidebarMenuItem>
-             <SidebarMenuButton asChild>
-              <Link href="/#">
-               <Projector/>
-               See All Projects
-              </Link>
-             </SidebarMenuButton>   
-            </SidebarMenuItem>
-             <SidebarMenuItem>
-             <SidebarMenuButton asChild>
-              <Link href="/#">
-               <Plus/>
-               Add a Project
-              </Link>
-             </SidebarMenuButton>   
-            </SidebarMenuItem>  
-           </SidebarMenu> 
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="/projects">
+                    <Projector />
+                    See All Projects
+                  </Link>
+                </SidebarMenuButton>
+                <SidebarMenuBadge>
+                  {hydrated ? projectsCount : "-"}
+                </SidebarMenuBadge>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="/projects/add">
+                    <Plus />
+                    Add a Project
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
-              
-
-             
-              
-           
       </SidebarContent>
-      {/* Sidebar i footerit */}
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            {/* <DropdownMenu>
-              <DropdownMenuTrigger asChild> */}
-                <SidebarMenuButton>
-                  <User2 /> John Doe
-                </SidebarMenuButton>
-              {/* </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem> Account </DropdownMenuItem>
-                <DropdownMenuItem> Settings </DropdownMenuItem>
-                <DropdownMenuItem> Sign out </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu> */}
+            <SidebarMenuButton>
+              <User2 /> Leoni Dev
+            </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
