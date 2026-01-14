@@ -6,6 +6,7 @@ import { SidebarProvider } from "../components/ui/sidebar";
 import { cookies } from "next/headers";
 import AppSidebar from "@/components/Sidebar";
 import Navbar from "@/components/Navbar";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,6 +51,7 @@ export default async function RootLayout({
               </main>
             </SidebarProvider>
           </ThemeProvider>
+          <Analytics />
         </body>
       </html>
     </>
